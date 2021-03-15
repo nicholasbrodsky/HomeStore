@@ -1,0 +1,10 @@
+.store-item-details {
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 2px #ddd;
+    /* margin-bottom: 1em; */
+    /* padding: 12px 0px; */
+}
+
+.detail-body {
+    padding: 12px;
+}

@@ -1,0 +1,14 @@
+.store-item {
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 4px #ddd;
+    margin-bottom: 1em;
+    padding: 12px 0px;
+}
+
+.store-item span {
+    display: block;
+}
+
+.store-item img {
+    cursor: pointer;
+}
