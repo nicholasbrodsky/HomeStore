@@ -16,7 +16,7 @@ namespace HomeStoreEntityLib
         public string Category { get; set; }
         [Required]
         [Column(TypeName = "NUMERIC")]
-        public decimal Price { get; set; }
+        public string Price { get; set; }
         public string Image { get; set; }
         [Column(TypeName = "TEXT")]
         public DateTime? LastPurchased { get; set; }

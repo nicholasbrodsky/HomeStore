@@ -6,11 +6,13 @@ import {v4 as uuid} from 'uuid'
 interface IStoreItemFormProps extends RouteComponentProps<{ id: string }> {
   storeItems: IStoreItem[];
   handleCreateStoreItem: (storeItem: IStoreItem) => void;
+  handleEditStoreItem: (storeItem: IStoreItem) => void;
 }
 
 const StoreItemForm: React.FC<IStoreItemFormProps> = ({
   storeItems,
   handleCreateStoreItem,
+  handleEditStoreItem,
   match: {
     params: { id },
   },
@@ -45,6 +47,9 @@ const StoreItemForm: React.FC<IStoreItemFormProps> = ({
         };
         alert(newStoreItem.id);
         handleCreateStoreItem(newStoreItem);
+    }
+    else{
+      handleEditStoreItem(storeItem);
     }
   };
   return (

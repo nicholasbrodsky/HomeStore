@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
 import "./App.css";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { IStoreItem } from "./models/storeitem";
 import StoreItemDashboard from "./layout/storeitems/StoreItemDashboard";
 import Navbar from "./layout/navbar/Navbar";
@@ -23,23 +23,57 @@ const App = () => {
         sItem.expDate = sItem.expDate?.split("T")[0];
         tempStoreItems.push(sItem);
       });
-      setStoreItems(tempStoreItems);
+      setStoreItems(
+        tempStoreItems.sort((a: IStoreItem, b: IStoreItem) =>
+          a.item > b.item ? 1 : -1
+        )
+      );
     });
   }, []);
   useEffect(() => {
     console.log("App.tsx cart item useEffect");
-    setCartItems([
-      ...storeItems.filter((storeItem: IStoreItem) => storeItem.cartQty > 0),
-    ]);
+    setCartItems(
+      [
+        ...storeItems.filter((storeItem: IStoreItem) => storeItem.cartQty > 0),
+      ].sort((a: IStoreItem, b: IStoreItem) => (a.item > b.item ? 1 : -1))
+    );
   }, [storeItems]);
 
   const handleCreateStoreItem = (newStoreItem: IStoreItem) => {
-    console.log(newStoreItem);
+    // console.log(newStoreItem);
     axios
       .post("https://localhost:5001/api/storeitems", newStoreItem)
       .then((response) => {
         console.log(response.status);
-        setStoreItems([...storeItems, newStoreItem]);
+        setStoreItems(
+          [...storeItems, newStoreItem].sort((a: IStoreItem, b: IStoreItem) =>
+            a.item > b.item ? 1 : -1
+          )
+        );
+      });
+  };
+  const handleEditStoreItem = (updatedStoreItem: IStoreItem) => {
+    // console.log(updatedStoreItem);
+    // updatedStoreItem.p
+    alert(updatedStoreItem.price);
+    axios
+      .put(
+        `https://localhost:5001/api/storeitems/${updatedStoreItem.id}`,
+        updatedStoreItem
+      )
+      .then((response) => {
+        console.log(response.status);
+        if (response.status === 200) {
+          setStoreItems(
+            [
+              ...storeItems.filter(
+                (storeItem: IStoreItem) => storeItem.id !== updatedStoreItem.id
+              ),
+              updatedStoreItem,
+            ].sort((a: IStoreItem, b: IStoreItem) => (a.item > b.item ? 1 : -1))
+          );
+          <Redirect to="/storeitems" />;
+        }
       });
   };
   const handleRemoveStoreItem = (id: string) => {
@@ -47,7 +81,11 @@ const App = () => {
       .delete(`https://localhost:5001/api/storeitems/${id}`)
       .then((response) => {
         setStoreItems(
-          storeItems.filter((storeItem: IStoreItem) => storeItem.id !== id)
+          [
+            ...storeItems.filter(
+              (storeItem: IStoreItem) => storeItem.id !== id
+            ),
+          ].sort((a: IStoreItem, b: IStoreItem) => (a.item > b.item ? 1 : -1))
         );
       });
   };
@@ -68,16 +106,14 @@ const App = () => {
             [
               ...storeItems.filter((item: IStoreItem) => item.id !== id),
               updatedStoreItem,
-            ].sort(
-              (item1: IStoreItem, item2: IStoreItem) =>
-                parseInt(item1.id) - parseInt(item2.id)
-            )
+            ].sort((a: IStoreItem, b: IStoreItem) => (a.item > b.item ? 1 : -1))
           );
-          setCartItems([
-            ...storeItems.filter((item: IStoreItem) => item.cartQty > 0),
-          ]);
-        }
-        else {
+          setCartItems(
+            [
+              ...storeItems.filter((item: IStoreItem) => item.cartQty > 0),
+            ].sort((a: IStoreItem, b: IStoreItem) => (a.item > b.item ? 1 : -1))
+          );
+        } else {
           alert("ERROR updating cart quantity!");
         }
       });
@@ -102,6 +138,7 @@ const App = () => {
     <StoreItemForm
       storeItems={storeItems}
       handleCreateStoreItem={handleCreateStoreItem}
+      handleEditStoreItem={handleEditStoreItem}
     />
   );
 

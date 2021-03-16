@@ -32,7 +32,7 @@ const StoreItemDashboard: React.FC<IStoreItemDashboardProps> = ({
         <StoreItemList storeItems={storeItems} storeItemPage={true} />
       </div>
       <div className="col-md-5 offset-md-1">
-        <StoreItemTopBar />
+        <StoreItemTopBar storeItems={storeItems} />
         <Route path="/storeitems/:id" component={StoreItemDetailsComponent} />
       </div>
     </div>

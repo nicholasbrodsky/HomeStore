@@ -28,7 +28,7 @@ const ShoppingCartHome: React.FC<IProps> = ({cartItems, handleRemoveStoreItem, h
           <StoreItemList storeItems={cartItems} storeItemPage={false} />
         </div>
         <div className="col-md-5 offset-md-1">
-          <StoreItemTopBar />
+          <StoreItemTopBar storeItems={cartItems} />
           <Route path="/shoppinglist/:id" component={StoreItemDetailsComponent} />
         </div>
       </div>
