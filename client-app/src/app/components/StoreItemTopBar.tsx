@@ -19,7 +19,7 @@ const StoreItemTopBar: React.FC<IStoreItemTopBarProps> = ({storeItems}) => {
           Cart Qty: {storeItemsInCart} (Total Items: {totalCartItems})
         </span>
         &nbsp;&nbsp;
-        <span>Total Price: {totalPrice}</span>
+        <span>Total Price: ${totalPrice}</span>
       </div>
     );
 }

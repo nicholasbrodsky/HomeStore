@@ -55,14 +55,14 @@ const App = () => {
   const handleEditStoreItem = (updatedStoreItem: IStoreItem) => {
     // console.log(updatedStoreItem);
     // updatedStoreItem.p
-    alert(updatedStoreItem.price);
+    // alert(updatedStoreItem.price);
     axios
       .put(
         `https://localhost:5001/api/storeitems/${updatedStoreItem.id}`,
         updatedStoreItem
       )
       .then((response) => {
-        console.log(response.status);
+        // console.log(response.status);
         if (response.status === 200) {
           setStoreItems(
             [
@@ -72,7 +72,7 @@ const App = () => {
               updatedStoreItem,
             ].sort((a: IStoreItem, b: IStoreItem) => (a.item > b.item ? 1 : -1))
           );
-          <Redirect to="/storeitems" />;
+          // <Redirect to="/storeitems" />;
         }
       });
   };

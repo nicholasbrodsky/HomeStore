@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { IStoreItem } from "../models/storeitem";
-import {v4 as uuid} from 'uuid'
+import { v4 as uuid } from "uuid";
 
 interface IStoreItemFormProps extends RouteComponentProps<{ id: string }> {
   storeItems: IStoreItem[];
@@ -27,7 +27,7 @@ const StoreItemForm: React.FC<IStoreItemFormProps> = ({
         id: "",
         item: "",
         category: "",
-        price: '',
+        price: "",
         image: "",
         runningLow: false,
         cartQty: 0,
@@ -41,75 +41,98 @@ const StoreItemForm: React.FC<IStoreItemFormProps> = ({
   };
   const handleSubmitForm = () => {
     if (!storeItem.id) {
-        const newStoreItem: IStoreItem = {
-            ...storeItem,
-            id: uuid()
-        };
-        alert(newStoreItem.id);
-        handleCreateStoreItem(newStoreItem);
-    }
-    else{
+      const newStoreItem: IStoreItem = {
+        ...storeItem,
+        id: uuid(),
+      };
+      alert(newStoreItem.id);
+      handleCreateStoreItem(newStoreItem);
+    } else {
       handleEditStoreItem(storeItem);
     }
   };
   return (
     <div className="row">
       <div className="col-md-12">
-          <div className="row">
-            <div className="col-md-6">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Store Item"
-                name="item"
-                value={storeItem.item}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-6">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Category"
-                name="category"
-                value={storeItem.category}
-                onChange={handleInputChange}
-              />
-            </div>
+        <div className="row">
+          <div className="col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Store Item"
+              name="item"
+              value={storeItem.item}
+              onChange={handleInputChange}
+            />
           </div>
+          <div className="col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Category"
+              name="category"
+              value={storeItem.category}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Price"
+              name="price"
+              value={storeItem.price}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Image"
+              name="image"
+              value={storeItem.image}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+        {storeItem.id && (
           <div className="row">
             <div className="col-md-6">
               <input
-                type="text"
+                type="date"
                 className="form-control"
-                placeholder="Price"
-                name="price"
-                value={storeItem.price}
+                placeholder="Exp. Date"
+                name="expDate"
+                value={storeItem.expDate}
                 onChange={handleInputChange}
               />
             </div>
             <div className="col-md-6">
-              <input
+              {/* <input
                 type="text"
                 className="form-control"
                 placeholder="Image"
                 name="image"
                 value={storeItem.image}
                 onChange={handleInputChange}
-              />
+              /> */}
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-12">
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={handleSubmitForm}
-              >
-                Submit
-              </button>
-            </div>
+        )}
+        <div className="row">
+          <div className="col-md-12">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={handleSubmitForm}
+            >
+              Submit
+            </button>
           </div>
+        </div>
       </div>
     </div>
   );
