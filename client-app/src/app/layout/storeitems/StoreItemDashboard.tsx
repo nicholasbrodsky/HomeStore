@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import { Route } from "react-router";
+import { Route } from "react-router-dom";
 import { IStoreItem } from "../../models/storeitem";
 import StoreItemDetails from "../../components/StoreItemDetails";
 import StoreItemList from "../../components/StoreItemList";
@@ -29,7 +29,7 @@ const StoreItemDashboard: React.FC<IStoreItemDashboardProps> = ({
   return (
     <div className="row">
       <div className="col-md-6">
-        <StoreItemList storeItems={storeItems} />
+        <StoreItemList storeItems={storeItems} storeItemPage={true} />
       </div>
       <div className="col-md-5 offset-md-1">
         <StoreItemTopBar />

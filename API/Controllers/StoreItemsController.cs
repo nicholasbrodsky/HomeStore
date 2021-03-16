@@ -47,6 +47,29 @@ namespace API.Controllers
             else
                 return BadRequest();
         }
+        // PUT api/storeitems/id
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(Guid id, [FromBody] StoreItem storeItem)
+        {
+            var updatedStoreItem = await _context.StoreItems.FindAsync(id);
+            if (updatedStoreItem is null)
+                return BadRequest();
+            updatedStoreItem.Item = storeItem.Item;
+            updatedStoreItem.Category = storeItem.Category;
+            updatedStoreItem.Price = storeItem.Price;
+            updatedStoreItem.Image = storeItem.Image;
+            updatedStoreItem.LastPurchased = storeItem.LastPurchased;
+            updatedStoreItem.ExpDate = storeItem.ExpDate;
+            updatedStoreItem.AvgDaysInHome = storeItem.AvgDaysInHome;
+            updatedStoreItem.RunningLow = storeItem.RunningLow;
+            updatedStoreItem.CartQty = storeItem.CartQty;
+            updatedStoreItem.QtyLastPurchased = storeItem.QtyLastPurchased;
+            int affected = await _context.SaveChangesAsync();
+            if (affected == 1)
+                return Ok();
+            else
+                return BadRequest();
+        }
         // DELETE api/storeitems/id
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)

@@ -56,22 +56,31 @@ const App = () => {
     id: string
   ) => {
     const { valueAsNumber } = event.target;
-    const tempStoreItem: IStoreItem = storeItems.filter(
+    const updatedStoreItem: IStoreItem = storeItems.filter(
       (item: IStoreItem) => item.id === id
     )[0];
-    tempStoreItem.cartQty = valueAsNumber;
-    setStoreItems(
-      [
-        ...storeItems.filter((item: IStoreItem) => item.id !== id),
-        tempStoreItem,
-      ].sort(
-        (item1: IStoreItem, item2: IStoreItem) =>
-          parseInt(item1.id) - parseInt(item2.id)
-      )
-    );
-    setCartItems([
-      ...storeItems.filter((item: IStoreItem) => item.cartQty > 0),
-    ]);
+    updatedStoreItem.cartQty = valueAsNumber;
+    axios
+      .put(`https://localhost:5001/api/storeitems/${id}`, updatedStoreItem)
+      .then((respose) => {
+        if (respose.status === 200) {
+          setStoreItems(
+            [
+              ...storeItems.filter((item: IStoreItem) => item.id !== id),
+              updatedStoreItem,
+            ].sort(
+              (item1: IStoreItem, item2: IStoreItem) =>
+                parseInt(item1.id) - parseInt(item2.id)
+            )
+          );
+          setCartItems([
+            ...storeItems.filter((item: IStoreItem) => item.cartQty > 0),
+          ]);
+        }
+        else {
+          alert("ERROR updating cart quantity!");
+        }
+      });
   };
 
   const HomeComponent = () => <Home />;
@@ -83,7 +92,11 @@ const App = () => {
     />
   );
   const ShoppingCartHomeComponent = () => (
-    <ShoppingCartHome cartItems={cartItems} />
+    <ShoppingCartHome
+      cartItems={cartItems}
+      handleRemoveStoreItem={handleRemoveStoreItem}
+      handleUpdateCartQuantity={handleUpdateCartQuantity}
+    />
   );
   const StoreItemFormComponent = () => (
     <StoreItemForm

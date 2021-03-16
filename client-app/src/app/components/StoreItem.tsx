@@ -5,19 +5,31 @@ import '../styles/StoreItem.css'
 
 interface IProps {
   storeItem: IStoreItem;
+  // shoppingCartPage: boolean;
+  storeItemPage: boolean;
 }
 
-const StoreItem: React.FC<IProps> = ({ storeItem }) => {
+const StoreItem: React.FC<IProps> = ({ storeItem, storeItemPage }) => {
   return (
     <div className="store-item row">
       <div className="col-md-6">
-        <Link to={`/storeitems/${storeItem.id}`}>
-          <img
-            src={`/images/items/${storeItem.image}`}
-            alt="item"
-            className="img-thumbnail"
-          />
-        </Link>
+        {storeItemPage ? (
+          <Link to={`/storeitems/${storeItem.id}`}>
+            <img
+              src={`/images/items/${storeItem.image}`}
+              alt="item"
+              className="img-thumbnail"
+            />
+          </Link>
+        ) : (
+          <Link to={`/shoppinglist/${storeItem.id}`}>
+            <img
+              src={`/images/items/${storeItem.image}`}
+              alt="item"
+              className="img-thumbnail"
+            />
+          </Link>
+        )}
       </div>
       <div className="col-md-6">
         <h3>{storeItem.item}</h3>
