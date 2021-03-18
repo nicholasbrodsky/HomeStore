@@ -34,6 +34,9 @@ const StoreItem: React.FC<IProps> = ({ storeItem, storeItemPage }) => {
       <div className="col-md-6">
         <h3>{storeItem.item}</h3>
         <div className="row">
+          <div className="col-md-12">{storeItem.details}</div>
+        </div>
+        <div className="row">
           <div className="col-md-4">
             <span>${storeItem.price}</span>
           </div>

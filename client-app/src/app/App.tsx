@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
 import "./App.css";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { IStoreItem } from "./models/storeitem";
 import StoreItemDashboard from "./layout/storeitems/StoreItemDashboard";
 import Navbar from "./layout/navbar/Navbar";
@@ -16,11 +16,12 @@ const App = () => {
   useEffect(() => {
     console.log("App.tsx store item useEffect");
     axios.get("https://localhost:5001/api/storeitems").then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       const tempStoreItems: IStoreItem[] = [];
       response.data.forEach((sItem: IStoreItem) => {
         sItem.lastPurchased = sItem.lastPurchased?.split("T")[0];
         sItem.expDate = sItem.expDate?.split("T")[0];
+        sItem.details = !sItem.details ? "" : sItem.details; // set to empty string (null/undefined raises warning in controlled component (input form))
         tempStoreItems.push(sItem);
       });
       setStoreItems(

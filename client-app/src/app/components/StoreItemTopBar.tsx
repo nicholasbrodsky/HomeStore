@@ -20,6 +20,7 @@ const StoreItemTopBar: React.FC<IStoreItemTopBarProps> = ({storeItems}) => {
         </span>
         &nbsp;&nbsp;
         <span>Total Price: ${totalPrice}</span>
+        <hr />
       </div>
     );
 }

@@ -31,7 +31,7 @@ namespace API.Controllers
         {
             var storeItem = await _context.StoreItems.FindAsync(id);
             if (storeItem is null)
-                return BadRequest();
+                return NotFound();
             return Ok(storeItem);
         }
         // POST api/storeitems
@@ -51,38 +51,47 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(Guid id, [FromBody] StoreItem storeItem)
         {
-            var updatedStoreItem = await _context.StoreItems.FindAsync(id);
-            if (updatedStoreItem is null)
+            if (id != storeItem.Id)
                 return BadRequest();
-            updatedStoreItem.Item = storeItem.Item;
-            updatedStoreItem.Category = storeItem.Category;
-            updatedStoreItem.Price = storeItem.Price;
-            updatedStoreItem.Image = storeItem.Image;
-            updatedStoreItem.LastPurchased = storeItem.LastPurchased;
-            updatedStoreItem.ExpDate = storeItem.ExpDate;
-            updatedStoreItem.AvgDaysInHome = storeItem.AvgDaysInHome;
-            updatedStoreItem.RunningLow = storeItem.RunningLow;
-            updatedStoreItem.CartQty = storeItem.CartQty;
-            updatedStoreItem.QtyLastPurchased = storeItem.QtyLastPurchased;
-            int affected = await _context.SaveChangesAsync();
-            if (affected == 1)
-                return Ok();
-            else
-                return BadRequest();
+            _context.Entry<StoreItem>(storeItem).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                var updatedStoreItem = await _context.StoreItems.FindAsync(id);
+                if (updatedStoreItem is null)
+                    return NotFound();
+                else
+                    throw;
+            }
+            return Ok();
         }
         // DELETE api/storeitems/id
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
             var storeItem = await _context.StoreItems.FindAsync(id);
-            if (storeItem is null)
-                return BadRequest();
-            _context.StoreItems.Remove(storeItem);
-            int affected = await _context.SaveChangesAsync();
-            if (affected == 1)
-                return Ok();
-            else
-                return BadRequest();
+            _context.Entry<StoreItem>(storeItem).State = EntityState.Deleted;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (storeItem is null)
+                    return NotFound();
+                else
+                    throw;
+            }
+            return Ok();
+            // _context.StoreItems.Remove(storeItem);
+            // int affected = await _context.SaveChangesAsync();
+            // if (affected == 1)
+            //     return Ok();
+            // else
+            //     return BadRequest();
         }
     }
 }

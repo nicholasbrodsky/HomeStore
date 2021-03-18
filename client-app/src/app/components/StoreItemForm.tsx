@@ -32,10 +32,11 @@ const StoreItemForm: React.FC<IStoreItemFormProps> = ({
         runningLow: false,
         cartQty: 0,
         qtyLastPurchased: 0,
+        details: ''
       };
   };
   const [storeItem, setStoreItem] = useState<IStoreItem>(initForm);
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value, name } = event.target;
     setStoreItem({ ...storeItem, [name]: value });
   };
@@ -45,7 +46,7 @@ const StoreItemForm: React.FC<IStoreItemFormProps> = ({
         ...storeItem,
         id: uuid(),
       };
-      alert(newStoreItem.id);
+      // alert(newStoreItem.id);
       handleCreateStoreItem(newStoreItem);
     } else {
       handleEditStoreItem(storeItem);
@@ -53,7 +54,7 @@ const StoreItemForm: React.FC<IStoreItemFormProps> = ({
   };
   return (
     <div className="row">
-      <div className="col-md-12">
+      <div className="col-md-8">
         <div className="row">
           <div className="col-md-6">
             <input
@@ -97,38 +98,50 @@ const StoreItemForm: React.FC<IStoreItemFormProps> = ({
               onChange={handleInputChange}
             />
           </div>
+
+          <div className="col-md-12">
+            <textarea
+              className="form-control"
+              placeholder="Details..."
+              name="details"
+              value={storeItem.details}
+              rows={2}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
         {storeItem.id && (
           <div className="row">
             <div className="col-md-6">
-              <input
-                type="date"
-                className="form-control"
-                placeholder="Exp. Date"
-                name="expDate"
-                value={storeItem.expDate}
-                onChange={handleInputChange}
-              />
+              <div className="form-inline">
+                <label className="form-label" style={{marginRight: '1em'}}>Exp. Date: </label>
+                <input
+                  type="date"
+                  className="form-control"
+                  placeholder="Exp. Date"
+                  name="expDate"
+                  value={storeItem.expDate}
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
             <div className="col-md-6">
-              {/* <input
-                type="text"
-                className="form-control"
-                placeholder="Image"
-                name="image"
-                value={storeItem.image}
-                onChange={handleInputChange}
-              /> */}
+              <div className="form-check">
+                <label className="form-check-label">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    // value={storeItem.runningLow}
+                  />
+                  Running Low
+                </label>
+              </div>
             </div>
           </div>
         )}
         <div className="row">
           <div className="col-md-12">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={handleSubmitForm}
-            >
+            <button className="btn btn-primary" onClick={handleSubmitForm}>
               Submit
             </button>
           </div>

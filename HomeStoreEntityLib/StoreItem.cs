@@ -27,5 +27,6 @@ namespace HomeStoreEntityLib
         public bool RunningLow { get; set; }
         public int CartQty { get; set; }
         public int QtyLastPurchased { get; set; }
+        public string Details { get; set; }
     }
 }

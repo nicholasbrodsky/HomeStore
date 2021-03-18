@@ -10,4 +10,5 @@ export interface IStoreItem {
     runningLow: boolean;
     cartQty: number;
     qtyLastPurchased: number;
+    details?: string;
 }
