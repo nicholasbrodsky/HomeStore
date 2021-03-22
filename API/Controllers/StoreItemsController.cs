@@ -1,5 +1,6 @@
 ﻿using HomeStoreContextLib;
 using HomeStoreEntityLib;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,6 +20,7 @@ namespace API.Controllers
             _context = context;
         }
         // GET api/storeitems
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<StoreItem>>> Get()
         {

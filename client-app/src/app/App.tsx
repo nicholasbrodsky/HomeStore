@@ -15,21 +15,27 @@ const App = () => {
 
   useEffect(() => {
     console.log("App.tsx store item useEffect");
-    axios.get("https://localhost:5001/api/storeitems").then((response) => {
-      // console.log(response.data);
-      const tempStoreItems: IStoreItem[] = [];
-      response.data.forEach((sItem: IStoreItem) => {
-        sItem.lastPurchased = sItem.lastPurchased?.split("T")[0];
-        sItem.expDate = sItem.expDate?.split("T")[0];
-        sItem.details = !sItem.details ? "" : sItem.details; // set to empty string (null/undefined raises warning in controlled component (input form))
-        tempStoreItems.push(sItem);
+    axios
+      .get("https://localhost:5001/api/storeitems", {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTkJST0RTS1kiLCJuYW1laWQiOiJlZmFmMWE5YS02YTk5LTQxZTQtOGE4My04YzgxY2RhOGYyOGEiLCJlbWFpbCI6Ik5JQ0tATUUuQ09NIiwibmJmIjoxNjE2MzAxNjIyLCJleHAiOjE2MTY5MDY0MjIsImlhdCI6MTYxNjMwMTYyMn0.2m6tAE7dhHhl6k4tpNKqBVszFAs1BlJv8OPMqLG2xIs`,
+        },
+      })
+      .then((response) => {
+        // console.log(response.data);
+        const tempStoreItems: IStoreItem[] = [];
+        response.data.forEach((sItem: IStoreItem) => {
+          sItem.lastPurchased = sItem.lastPurchased?.split("T")[0];
+          sItem.expDate = sItem.expDate?.split("T")[0];
+          sItem.details = !sItem.details ? "" : sItem.details; // set to empty string (null/undefined raises warning in controlled component (input form))
+          tempStoreItems.push(sItem);
+        });
+        setStoreItems(
+          tempStoreItems.sort((a: IStoreItem, b: IStoreItem) =>
+            a.item > b.item ? 1 : -1
+          )
+        );
       });
-      setStoreItems(
-        tempStoreItems.sort((a: IStoreItem, b: IStoreItem) =>
-          a.item > b.item ? 1 : -1
-        )
-      );
-    });
   }, []);
   useEffect(() => {
     console.log("App.tsx cart item useEffect");

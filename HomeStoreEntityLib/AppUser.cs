@@ -1,8 +1,10 @@
+using System;
+using Microsoft.AspNetCore.Identity;
+
 namespace HomeStoreEntityLib
 {
-    public class AppUser : IdentityUsers
+    public class AppUser : IdentityUser
     {
-        List<string> val;
-        asdf;
+        public string DisplayName { get; set; }
     }
 }
